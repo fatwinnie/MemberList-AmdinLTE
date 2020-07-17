@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Member List</title>
+  <title>修改會員資料</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -103,83 +103,74 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Member List</h1>
+            <h1 class="m-0 text-dark">Edit member data</h1>
           </div>   
         </div>
       </div>
     </div>
     <!-- /.content-header -->
+    <?php
+        $host='localhost:8889';
+        $usr='root';
+        $password='root';
+        $dbname='test0706';  
+        
+        if(!empty($_GET['id'])){
+            //連線 mysql資料庫
+            $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
+            if(!$connect){
+                  die('Could not connect:'.mysqli_error());}
+
+            //查詢id
+            $id = intval($_GET['id']); 
+            $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
+            if(mysqli_error($connect)){
+                die('can not connect db');
+            }
+            //獲取結果陣列
+            $result_arr = mysqli_fetch_assoc($result);} 
+            else{
+                die('id not define');
+            }        
+    ?>
 
     <!-- Main content -->
     <div class="content">
         <!-- Main content -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
-
-                <div class="card-tools">
-                <button type="button" class="btn btn-primary btn-sm" onclick="location.href='addUser.html'">新增Member</button>
+        <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Quick Example</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form role="form" action="editUser_server.php" method="POST">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="hidden"  name="id" value="<?php echo $result_arr['memID']?>" >
+                  <input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $result_arr['memEmail']?>" name="email">
                 </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th><input type='checkbox' onclick='selectAll(this)' name='qx'> 全選</th>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Edit/Delete</th>                
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-
-                    $host='localhost:8889';
-                    $usr='root';
-                    $password='root';
-                    $dbname='test0706';
-                    //連結資料庫
-                    $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
-                    if(!$connect){
-                        die('Could not connect:'.mysqli_error());
-                    }
-
-                    //查詢資料表中的所有資料,並按照id降序排列
-                    $result = mysqli_query($connect,"SELECT*FROM member ORDER BY memID ASC");
-                    $row_count = mysqli_num_rows($result); 
-                    //echo $row_count; //獲取資料表的資料條數
-
-                    for($i=0;$i<$row_count;$i++){
-                        $result_arr = mysqli_fetch_assoc($result);
-                        $id = $result_arr['memID'];
-                        $email = $result_arr['memEmail'];
-                        $name = $result_arr['memName'];
-                        //print_r($result_arr);
-                        echo "<tr>
-                                <td><input type='checkbox' name='checkbox[]' value=$id class='CK'/></td>
-                                <td>$id</td>
-                                <td>$email</td>
-                                <td>$name</td>
-                                <td> <input type='button' onclick='javascript:location.href= `editUser.php?id=${id}`' value='修改'>
-                                    <input type='button' onclick='deleteRecord($id)' value='刪除'></td>                
-                            </tr>"; }
-
-                    mysqli_close($connect);
-
-                    ?>
-                   
-                  </tbody>
-                </table>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Name</label>
+                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['memName']?>" name="name">
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psd1"> 
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Retype Password" name="psd2">
+                </div>      
               </div>
               <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">送出修改</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='memList.php'">取消返回</button>
+              </div>
+            </form>
           </div>
-        </div>
  
     </div>
     <!-- /.content -->
@@ -218,29 +209,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 
-<script language="javascript">
 
-    function selectAll(qx){
-        var ck = document.getElementsByClassName('CK');
-
-        if(qx.checked){
-            for(i=0;i<ck.length;i++){
-                ck[i].setAttribute("checked","chekced"); //全選
-            }
-        } else{
-            for(var i=0;i<ck.length;i++){
-                ck[i].removeAttribute("checked"); //全部取消
-            }
-        }
-    }
-
-function deleteRecord(id)
-{
-if(confirm("確定要刪除嗎?")) {
-    location.href=`deleteUser.php?id=${id}`;
-    alert("刪除成功！");
-}else
-alert("取消刪除");
-}
-</script>
 </html>
