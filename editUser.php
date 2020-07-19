@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -44,7 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>
     </a>
 
     <!-- Sidebar -->
@@ -115,12 +116,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $password='root';
         $dbname='test0706';  
         
+        // 判斷是否有登入
+        if($_SESSION['userName']){
         if(!empty($_GET['id'])){
             //連線 mysql資料庫
             $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
             if(!$connect){
                   die('Could not connect:'.mysqli_error());}
 
+            
             //查詢id
             $id = intval($_GET['id']); 
             $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
@@ -128,10 +132,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 die('can not connect db');
             }
             //獲取結果陣列
-            $result_arr = mysqli_fetch_assoc($result);} 
+            $result_arr = mysqli_fetch_assoc($result);
+          } 
             else{
                 die('id not define');
-            }        
+            }
+          }
+          else{
+            echo "<script>alert('請先登入')</script>";
+            echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+            //header("Location:login.php");
+          }        
     ?>
 
     <!-- Main content -->

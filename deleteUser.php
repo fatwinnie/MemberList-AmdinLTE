@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $host='localhost:8889';
 $usr='root';
@@ -11,6 +12,7 @@ if(!$connect){
 }
 // if user login and has delete / do next
 //else die permission deny.
+if($_SESSION['userName']){
 
 $id=intval($_GET['id']);
 //排空錯誤
@@ -27,5 +29,12 @@ if(mysqli_error($connect)){
 }else{
     header("Location:memList.php");
 }
+}
+
+else{
+    echo "<script>alert('請先登入')</script>";
+    echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+    //header("Location:login.php");
+  }
 
 ?>

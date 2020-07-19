@@ -1,4 +1,5 @@
-<?php
+<?php 
+session_start();
 
 $host='localhost:8889';
 $usr='root';
