@@ -45,11 +45,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>
-      
+    <a  class="brand-link"> 
+      <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>  
     </a>
 
     <!-- Sidebar -->
@@ -66,7 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Starter Pages
+                Member List 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -85,15 +82,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+         
+        </ul>
+      </nav>
+
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Product List 
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Active Page</p>
+                </a>
+              </li>
+            
+            </ul>
           </li>
+         
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -132,6 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
+              <form action="deleteAll.php" method="post">
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
@@ -169,7 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $name = $result_arr['memName'];
                         //print_r($result_arr);
                         echo "<tr>
-                                <td><input type='checkbox' name='checkbox[]' value=$id class='CK'/></td>
+                                <td><input type='checkbox' name='checkbox[]' value='$id' class='CK'/></td>
                                 <td>$id</td>
                                 <td>$name</td>
                                 <td>$email</td>
@@ -190,6 +206,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                    
                   </tbody>
                 </table>
+                <input type=submit class="btn btn-danger btn-sm" value="删除" onclick="return delete_confirm();" />
+                </form>
               </div>
               <!-- /.card-body -->
             </div>
@@ -258,6 +276,13 @@ if(confirm("確定要刪除嗎?")) {
 }else
 alert("取消刪除");
 }
+
+function delete_confirm() { 
+    var msg = confirm('Are you sure you want to delete '); 
+    if(msg == false) { 
+     return false; 
+    } 
+} 
 </script>
 </html>
 
