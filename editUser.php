@@ -1,4 +1,39 @@
-<?php session_start(); ?>
+<?php session_start();
+
+$host='localhost:8889';
+$usr='root';
+$password='root';
+$dbname='test0706';  
+
+// 判斷是否有登入
+if(isset($_SESSION['userName']) && $_SESSION['userName']  ){
+  if(!empty($_GET['id'])){
+      //連線 mysql資料庫
+      $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
+      if(!$connect){
+            die('Could not connect:'.mysqli_error());}
+
+      
+      //查詢id
+      $id = intval($_GET['id']); 
+      $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
+      if(mysqli_error($connect)){
+          die('can not connect db');
+      }
+      //獲取結果陣列
+      $result_arr = mysqli_fetch_assoc($result);
+    } 
+      else{
+          die('id not define');
+      }
+  }
+  else{
+    echo "<script>alert('請先登入')</script>";
+    echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+    die();
+    //header("Location:login.php");
+  }        
+?> 
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -110,40 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </div>
     <!-- /.content-header -->
-    <?php
-        $host='localhost:8889';
-        $usr='root';
-        $password='root';
-        $dbname='test0706';  
-        
-        // 判斷是否有登入
-        if($_SESSION['userName']){
-        if(!empty($_GET['id'])){
-            //連線 mysql資料庫
-            $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
-            if(!$connect){
-                  die('Could not connect:'.mysqli_error());}
-
-            
-            //查詢id
-            $id = intval($_GET['id']); 
-            $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
-            if(mysqli_error($connect)){
-                die('can not connect db');
-            }
-            //獲取結果陣列
-            $result_arr = mysqli_fetch_assoc($result);
-          } 
-            else{
-                die('id not define');
-            }
-          }
-          else{
-            echo "<script>alert('請先登入')</script>";
-            echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
-            //header("Location:login.php");
-          }        
-    ?>
+    
 
     <!-- Main content -->
     <div class="content">
