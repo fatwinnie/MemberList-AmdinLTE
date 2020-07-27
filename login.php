@@ -30,7 +30,7 @@
 
       <form action="checkLogin.php" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="id">
+          <input type="type" class="form-control" placeholder="name" name="id">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

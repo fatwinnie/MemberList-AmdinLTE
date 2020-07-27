@@ -53,7 +53,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       
-
+      
+      <!--if($_SESSION['role'] == 'admin' || ) {  -->
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -85,6 +86,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
          
         </ul>
       </nav>
+  <!-- } else {
+        <div> not access</div>   } -->
+    
 
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
