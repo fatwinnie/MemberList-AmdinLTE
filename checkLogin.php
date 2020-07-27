@@ -30,14 +30,14 @@ if($id!=null && $pw!=null && $row['userName']==$id && $row['password']==$pw){
     //echo '登入成功!';
     
     switch($_SESSION['user_rank']){
-        case 1:
+        case 'root':
             echo '<meta http-equiv=REFRESH CONTENT=1;url=memList.php>';
             //header("location: memList.php");
             break;
-        case 2:
+        case 'manager':
             header("location: productList.php");
             break;
-        case 3:
+        case 'PM':
             header("location: adduser.php");
             break;
         default:
