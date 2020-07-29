@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php session_start();
+if(!isset($_SESSION['isLogined']) or $_SESSION['isLogined']!=1){
+  導向至登入首頁
+}
+//include('common.php');//共用表單
+$_SESSION['member']['list']=1;
+if(!isset($_SESSION['member']['list']) or $_SESSION['member']['list']!=1){
+  權限不足
+  導向至登入後的首頁
+}
+?>
       
 
 
@@ -61,27 +71,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="memList.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Member List 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
+            
           </li>
          
         </ul>
@@ -90,27 +87,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div> not access</div>   } -->
     
 
-      <nav class="mt-2">
+        <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="productList.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Product List 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
             
-            </ul>
           </li>
          
         </ul>
@@ -133,7 +122,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </div>
     <!-- /.content-header -->
-
+    <?php
+    // 此判斷為判定觀看此頁有沒有權限
+    if($_SESSION['userName'] && $_SESSION['user_rank']=='root'|| $_SESSION['user_rank']=='user' ){
+    ?>
     <!-- Main content -->
     <div class="content">
         <!-- Main content -->
@@ -164,6 +156,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </thead>
                   <tbody>
                   <?php
+                   // 此判斷為判定觀看此頁有沒有權限
+                  // if($_SESSION['userName'] ){
+                  
                     $host='localhost:8889';
                     $usr='root';
                     $password='root';
@@ -174,8 +169,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         die('Could not connect:'.mysqli_error());
                     }
 
-                    // 此判斷為判定觀看此頁有沒有權限
-                    if($_SESSION['userName']){
+                   
 
                     //查詢資料表中的所有資料,並按照id降序排列
                     $result = mysqli_query($connect,"SELECT*FROM member ORDER BY memID ASC");
@@ -197,10 +191,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <input type='button' onclick='deleteRecord($id)' value='刪除'></td>                
                             </tr>"; }
                           }
+                          //if($_SESSION['user_rank']='PM'  ){
+                            //include "error.html";
+                          //}
                           else{
-                            echo "<script>alert('請先登入')</script>";
-                            //echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
-                            header("Location:login.php");
+                            echo "<script>alert('你没有權限查看此頁面')</script>";
+                            echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+                            //header("Location:login.php");
                           }
 
                     mysqli_close($connect);

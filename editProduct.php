@@ -6,7 +6,7 @@ $password='root';
 $dbname='test0706';  
 
 // 判斷是否有登入
-if(isset($_SESSION['userName']) && $_SESSION['user_rank']=='root'  ){
+if(isset($_SESSION['userName']) && $_SESSION['userName']  ){
   if(!empty($_GET['id'])){
       //連線 mysql資料庫
       $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
@@ -16,7 +16,7 @@ if(isset($_SESSION['userName']) && $_SESSION['user_rank']=='root'  ){
       
       //查詢id
       $id = intval($_GET['id']); 
-      $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
+      $result = mysqli_query($connect,"SELECT * FROM products WHERE product_id=$id");
       if(mysqli_error($connect)){
           die('can not connect db');
       }
@@ -45,7 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>修改會員資料</title>
+  <title>修改產品資料</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item has-treeview menu-open">
+          <li class="nav-item has-treeview menu-open">
             <a href="memList.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -103,7 +103,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             
           </li>
-       
+         
         </ul>
       </nav>
       <nav class="mt-2">
@@ -135,7 +135,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit member data</h1>
+            <h1 class="m-0 text-dark">Edit product data</h1>
           </div>   
         </div>
       </div>
@@ -152,31 +152,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="editUser_server.php" method="POST">
-              <div class="card-body">
+            <form role="form" action="editProduct_server.php" method="POST">
+            <div class="card-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="hidden"  name="id" value="<?php echo $result_arr['memID']?>" >
-                  <input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $result_arr['memEmail']?>" name="email">
+                    <label for="exampleInputPassword1">Item</label>
+                    <input type="hidden"  name="id" value="<?php echo $result_arr['product_id']?>" >
+                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['product_item']?>" name="item">
                 </div>
+                
                 <div class="form-group">
                     <label for="exampleInputPassword1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['memName']?>" name="name">
-                  </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psd1"> 
+                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['product_name']?>" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword2">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Retype Password" name="psd2">
-                </div>      
+                    <label for="exampleInputPassword1">price</label>
+                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['product_price']?>" name="price">
+                </div>
+                      
               </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">送出修改</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='memList.php'">取消返回</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='productList.php'">取消返回</button>
               </div>
             </form>
           </div>

@@ -1,39 +1,4 @@
-<?php session_start();
-
-$host='localhost:8889';
-$usr='root';
-$password='root';
-$dbname='test0706';  
-
-// 判斷是否有登入
-if(isset($_SESSION['userName']) && $_SESSION['user_rank']=='root'  ){
-  if(!empty($_GET['id'])){
-      //連線 mysql資料庫
-      $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
-      if(!$connect){
-            die('Could not connect:'.mysqli_error());}
-
-      
-      //查詢id
-      $id = intval($_GET['id']); 
-      $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
-      if(mysqli_error($connect)){
-          die('can not connect db');
-      }
-      //獲取結果陣列
-      $result_arr = mysqli_fetch_assoc($result);
-    } 
-      else{
-          die('id not define');
-      }
-  }
-  else{
-    echo "<script>alert('請先登入')</script>";
-    echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
-    die();
-    //header("Location:login.php");
-  }        
-?> 
+<?php session_start(); ?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -45,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>修改會員資料</title>
+  <title>AdminLTE 3 | Starter</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -81,32 +46,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>
+      
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       
-
+      
+      
       <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-               <li class="nav-item has-treeview menu-open">
-            <a href="memList.php" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Member List 
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            
-          </li>
-       
-        </ul>
-      </nav>
-      <nav class="mt-2">
+      
+  
+
+        <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -135,13 +88,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit member data</h1>
+            <h1 class="m-0 text-dark">Add product</h1>
           </div>   
         </div>
       </div>
     </div>
     <!-- /.content-header -->
-    
 
     <!-- Main content -->
     <div class="content">
@@ -152,31 +104,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" action="editUser_server.php" method="POST">
+            <form role="form" action="add_product_server.php" method="POST">
               <div class="card-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="hidden"  name="id" value="<?php echo $result_arr['memID']?>" >
-                  <input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $result_arr['memEmail']?>" name="email">
+                  <label for="exampleInputEmail1">Protuct item</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter item" name="item">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['memName']?>" name="name">
+                    <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" name="name">
                   </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psd1"> 
+                  <label for="exampleInputPassword1">price</label>
+                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="price" name="price">
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword2">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Retype Password" name="psd2">
-                </div>      
+                      
               </div>
               <!-- /.card-body -->
 
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">送出修改</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='memList.php'">取消返回</button>
+                <button type="submit" class="btn btn-primary">送出</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='productList.php'">取消返回</button>
               </div>
             </form>
           </div>

@@ -30,15 +30,14 @@ if($id!=null && $pw!=null && $row['userName']==$id && $row['password']==$pw){
     //echo '登入成功!';
     
     switch($_SESSION['user_rank']){
-        case 'root':
-            echo '<meta http-equiv=REFRESH CONTENT=1;url=memList.php>';
-            //header("location: memList.php");
+        case 'root':        
+            header("location: memList.php");
             break;
-        case 'manager':
-            header("location: productList.php");
+        case 'user':
+            header("location: memList_user.php");
             break;
         case 'PM':
-            header("location: adduser.php");
+            header("location: productList_PM.php");
             break;
         default:
             header("location: test.php");
@@ -55,7 +54,7 @@ if($id!=null && $pw!=null && $row['userName']==$id && $row['password']==$pw){
  
 else{
     echo '登入失敗';
-    echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+    //echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
 }
 
 ?>

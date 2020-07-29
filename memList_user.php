@@ -1,39 +1,7 @@
-<?php session_start();
-
-$host='localhost:8889';
-$usr='root';
-$password='root';
-$dbname='test0706';  
-
-// 判斷是否有登入
-if(isset($_SESSION['userName']) && $_SESSION['user_rank']=='root'  ){
-  if(!empty($_GET['id'])){
-      //連線 mysql資料庫
-      $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
-      if(!$connect){
-            die('Could not connect:'.mysqli_error());}
-
+<?php session_start(); ?>
       
-      //查詢id
-      $id = intval($_GET['id']); 
-      $result = mysqli_query($connect,"SELECT * FROM member WHERE memID=$id");
-      if(mysqli_error($connect)){
-          die('can not connect db');
-      }
-      //獲取結果陣列
-      $result_arr = mysqli_fetch_assoc($result);
-    } 
-      else{
-          die('id not define');
-      }
-  }
-  else{
-    echo "<script>alert('請先登入')</script>";
-    echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
-    die();
-    //header("Location:login.php");
-  }        
-?> 
+
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -45,7 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>修改會員資料</title>
+  <title>MemberList-User</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -77,24 +45,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>
+    <a  class="brand-link"> 
+      <span class="brand-text font-weight-light"><?php echo $_SESSION['userName'] ?></span>  
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       
-
+      
+      <!--if($_SESSION['role'] == 'admin' || ) {  -->
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item has-treeview menu-open">
-            <a href="memList.php" class="nav-link active">
+          <li class="nav-item has-treeview menu-open">
+            <a href="memList_user.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Member List 
@@ -103,15 +70,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             
           </li>
-       
+         
         </ul>
       </nav>
+  <!-- } else {
+        <div> not access</div>   } -->
+    
+
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="productList.php" class="nav-link active">
+            <a href="productList_user.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Product List 
@@ -135,51 +106,96 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit member data</h1>
+            <h1 class="m-0 text-dark">Member List</h1>
           </div>   
         </div>
       </div>
     </div>
     <!-- /.content-header -->
-    
 
     <!-- Main content -->
     <div class="content">
         <!-- Main content -->
-        <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Quick Example</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form role="form" action="editUser_server.php" method="POST">
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="hidden"  name="id" value="<?php echo $result_arr['memID']?>" >
-                  <input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $result_arr['memEmail']?>" name="email">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                 <!-- <button type="button" class="btn btn-primary btn-sm" onclick="location.href='adduser.php'">新增Member</button> -->
+                
+                
+
+                <div class="card-tools">
+                <button type="button" class="btn btn-primary btn-sm" onclick="location.href='logout.php'">登出</button>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName" value="<?php echo $result_arr['memName']?>" name="name">
-                  </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="psd1"> 
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword2">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Retype Password" name="psd2">
-                </div>      
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+              <form action="deleteAll.php" method="post">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <!-- <th><input type='checkbox' onclick='selectAll(this)' name='qx'> 全選</th> -->
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                                    
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                    $host='localhost:8889';
+                    $usr='root';
+                    $password='root';
+                    $dbname='test0706';
+                    //連結資料庫
+                    $connect= mysqli_connect($host,$usr,$password,$dbname) or die('Error with MYSQL connection');
+                    if(!$connect){
+                        die('Could not connect:'.mysqli_error());
+                    }
+
+                    // 此判斷為判定觀看此頁有沒有權限
+                    if($_SESSION['userName']){
+
+                    //查詢資料表中的所有資料,並按照id降序排列
+                    $result = mysqli_query($connect,"SELECT*FROM member ORDER BY memID ASC");
+                    $row_count = mysqli_num_rows($result); 
+                    //echo $row_count; //獲取資料表的資料條數
+
+                    for($i=0;$i<$row_count;$i++){
+                        $result_arr = mysqli_fetch_assoc($result);
+                        $id = $result_arr['memID'];
+                        $email = $result_arr['memEmail'];
+                        $name = $result_arr['memName'];
+                        //print_r($result_arr);
+                        echo "<tr>
+                                
+                                <td>$id</td>
+                                <td>$name</td>
+                                <td>$email</td>
+                                         
+                            </tr>"; }
+                          }
+                          else{
+                            echo "<script>alert('請先登入')</script>";
+                            //echo '<meta http-equiv=REFRESH CONTENT=1;url=login.php>';
+                            header("Location:login.php");
+                          }
+
+                    mysqli_close($connect);
+                  
+
+                    ?>
+                   
+                  </tbody>
+                </table>
+               <!-- <input type=submit class="btn btn-danger btn-sm" value="删除" onclick="return delete_confirm();" /> -->
+                </form>
               </div>
               <!-- /.card-body -->
-
-              <div class="card-footer">
-                <button type="submit" class="btn btn-primary">送出修改</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='memList.php'">取消返回</button>
-              </div>
-            </form>
+            </div>
+            <!-- /.card -->
           </div>
+        </div>
  
     </div>
     <!-- /.content -->
@@ -220,3 +236,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 </html>
+

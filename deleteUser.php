@@ -12,7 +12,7 @@ if(!$connect){
 }
 // if user login and has delete / do next
 //else die permission deny.
-if($_SESSION['userName']){
+if($_SESSION['userName'] && $_SESSION['user_rank']=='root'){
 
 $id=intval($_GET['id']);
 //排空錯誤

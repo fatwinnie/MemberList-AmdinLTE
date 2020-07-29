@@ -60,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="memList.php" class="nav-link active">
+            <a href="memList_user.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Member List 
@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="productList_user.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Product List 
@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <button type="button" class="btn btn-primary btn-sm" onclick="location.href='add_product.php'">新增Product</button>
+                
                 
                 
 
@@ -129,12 +129,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th><input type='checkbox' onclick='selectAll(this)' name='qx'> 全選</th>
+                      
                       <th>ID</th>
                       <th>product_Item</th>
                       <th>product_Name</th>
                       <th>price</th>
-                      <th>Edit/Delete</th>                
+                                      
                     </tr>
                   </thead>
                   <tbody>
@@ -165,13 +165,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $price = $result_arr['product_price'];
                         //print_r($result_arr);
                         echo "<tr>
-                                <td><input type='checkbox' name='checkbox[]' value='$id' class='CK'/></td>
+                                
                                 <td>$id</td>
                                 <td>$item</td>
                                 <td>$name</td>
                                 <td>$price</td>
-                                <td> <input type='button' onclick='javascript:location.href= `editProduct.php?id=${id}`' value='修改'>
-                                    <input type='button' onclick='deleteRecord($id)' value='刪除'></td>                
+                                               
                             </tr>"; }
                           }
                           else{
@@ -187,7 +186,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                    
                   </tbody>
                 </table>
-                <input type=submit class="btn btn-danger btn-sm" value="删除" onclick="return delete_confirm();" />
+                
                 </form>
               </div>
               <!-- /.card-body -->
