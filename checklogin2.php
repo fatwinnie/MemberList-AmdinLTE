@@ -17,6 +17,7 @@ $result = mysqli_query($connect,"SELECT * FROM user where userName='$id'");
 
 $row = mysqli_fetch_assoc($result);
 if(如果資料庫查到資料){
+      session_start();
     $_SESSION['isLogined']= 1;
     $_SESSION['userName']= $row['userName'];
     $_SESSION['userID']= $row['userID'];
